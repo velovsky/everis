@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.my-item
+{
+  display: inline-block;
+  margin: 10px;
+  border: 1px solid black;
+
+  ul
+  {
+    margin: 0px;
+    padding: 10px;
+    list-style: none;
+  }
+
+  li
+  {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .title
+  {
+    font-weight: 600;
+    padding-bottom: 10px;
+  }
+
+  .rating
+  {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="my-item">
+  <ul>
+    <li class="title">
+      {{ title }}
+    </li>
+    <li class="description">
+      {{ description }}
+    </li>
+    <li class="rating">
+      <!-- <i
+        *ngFor="let star of getNumberOfStars('full')"
+        (click)="submitRating()"
+        class="material-icons">
+        star
+      </i> -->
+      <i
+        *ngFor="let star of stars; let i = index"
+        [attr.data-index]="i"
+        (click)="submitRating($event)" 
+        class="material-icons">
+        {{ star.name }}
+      </i>
+    </li>
+  </ul>
+</div>
