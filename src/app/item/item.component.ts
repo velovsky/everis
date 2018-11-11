@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { Item } from './item';
 
 @Component({
@@ -8,45 +10,58 @@ import { Item } from './item';
 })
 export class ItemComponent implements OnInit {
 
+  constructor(private http: HttpClient) { }
+
   @Input() data: Item;
 
-  constructor() { }
+  // item properties
+  id = null;
+  title = null;
+  description = null;
+  rating = null;
+  ratingURL = null;
+
+  stars = Array(5).fill('star_border', 0, 5);
 
   ngOnInit() {
 
-    //fill data
-    if(!this.data)
+    // fill data
+    if (!this.data) {
       return;
+    }
 
     this.id = this.data.id;
     this.title = this.data.title;
     this.description = this.data.description;
     this.rating = this.data.rating;
+    this.ratingURL = this.data.ratingURL;
   }
 
-  //item properties
-  id = null;
-  title = null;
-  description = null;
-  rating = null;
-  
-  stars = Array(5).fill(
-    { 
-      name: 'star_border'
-    }, 0, 5);
-
-  //methods
+  // methods
   submitRating(event) {
-    let idx = parseInt(event.target.getAttribute("data-index"));
-    console.log(idx);
-    this.stars[idx].name = 'star';
-    this.rating = idx + 1;
-    // this.rating++;
-  }
 
-  getNumberOfStars(mode) {
-    let number = mode === 'empty' ? 5 - this.rating : this.rating;
-    return Array(number).fill(1,0,number);
+    const idx = parseInt(event.target.getAttribute('data-index'), 10);
+    this.rating = idx + 1;
+
+    this.http
+    .post(this.ratingURL, { 'item': this.id, 'rating': this.rating })
+    .subscribe(
+
+      // TODO: add a loader for a better UX, validate data
+      (data: any) => { // on Success
+
+        console.log(data);
+
+        for (let i = 0; i < this.stars.length; i++) {
+          this.stars[i] = i <= idx ? 'star' : 'star_border';
+        }
+
+      },
+
+      // TODO: a more complex handler, alert client in a more elegant way
+      error => window.alert(error) // error
+    );
+
   }
 
 }
